@@ -16,7 +16,7 @@ Lead by [0x0077](https://github.com/0x0077).
 
 ## 入门
 
-**第1讲: Hello Vyper** [Code](./01_HelloVyper/HelloVyper.vyper) | [教程](./01_HelloVyper/README.md)
+**第1讲: Hello Vyper** [Code](./01_HelloVyper/HelloVyper.vy) | [教程](./01_HelloVyper/README.md)
 
 
 ## 资料

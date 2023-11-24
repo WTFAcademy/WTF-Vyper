@@ -1,4 +1,4 @@
-# Vyper入门: 1. HelloVyper
+# WTF Vyper教程: 1. Hello Vyper
 
 我最近在重新学Vyper，巩固一下细节，也写一个“Vyper极简入门”，供小白们使用（编程大佬可以另找教程），每周更新1-3讲。
 
