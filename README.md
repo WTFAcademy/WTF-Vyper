@@ -1,36 +1,25 @@
-# WTF-Vyper
-#### 欢迎来到Vyper教程！最近在重新学习Vyper，巩固一下基础。这个教程旨在为初学者提供全面、易于理解的Vyper智能合约编程教程。无论你是区块链新手还是希望扩展你的智能合约知识，这里都有适合你的内容。每周更新1-3讲。官网: https://wtf.academy
+# WTF Vyper
+
+欢迎来到Vyper教程！Vyper是一个python风格的以太坊智能合约语言，是Solidity的替代品，专门设计为简单、易于理解，并且重视安全性。
+
+我最近在重新学习Vyper，巩固一下基础。这个教程旨在为初学者提供全面、易于理解的Vyper智能合约编程教程。无论你是区块链新手还是希望扩展你的智能合约知识，这里都有适合你的内容。每周更新1-3讲。
+
+
+Lead by [0x0077](https://github.com/0x0077).
+
+
+推特：[@WTFAcademy_](https://twitter.com/WTFAcademy_)
+
+社区：[Discord](https://discord.gg/5akcruXrsk)｜[微信群](https://docs.google.com/forms/d/e/1FAIpQLSe4KGT8Sh6sJ7hedQRuIYirOoZK_85miz3dw7vA1-YjodgJ-A/viewform?usp=sf_link)｜[官网 wtf.academy](https://wtf.academy)
+
+
 
 ## 入门
-**第1节: Hello Vyper** [<u>文档</u>](./01-HelloVyper)
 
-**第2节: 数值类型** [<u>文档</u>](./02-数值类型)
+**第1讲: Hello Vyper** [Code](./01_HelloVyper/HelloVyper.vyper) | [教程](./01_HelloVyper/README.md)
 
-**第3节: 函数类型** [<u>文档</u>](./03-函数类型)
 
-**第4节: 函数输出** [<u>文档</u>](./04-函数输出)
-
-**第5节: 变量数据存储和作用域** [<u>文档</u>](./05-变量数据存储和作用域)
-
-**第6节: 引用类型** [<u>文档</u>](./06-引用类型)
-
-**第7节: 映射类型** [<u>文档</u>](./07-映射类型)
-
-**第8节: 变量初始值** [<u>文档</u>](./08-变量初始值)
-
-**第9节: 常数** [<u>文档</u>](./09-常数)
-
-**第10节: 控制流** [<u>文档</u>](./10-控制流)
-
-**第11节: 构造函数和回调函数** [<u>文档</u>](./11-构造函数和回调函数)
-
-**第12节: 事件** [<u>文档</u>](./12-事件)
-
-**第13节: 接口** [<u>文档</u>](./13-接口)
-
-**第14节: 异常** [<u>文档</u>](./14-异常)
-
-## 资料文档
+## 资料
 - [Vyper 官方文档](https://vyper.readthedocs.io/en/latest/)
 - [Curve.Fi](https://curve.readthedocs.io/guide-code-style.html)
 - [Yearn.fi](https://docs.yearn.fi/)

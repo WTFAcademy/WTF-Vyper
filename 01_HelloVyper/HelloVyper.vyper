@@ -1,0 +1,8 @@
+%%vyper MyContract
+
+greet: public(String[12])
+
+@payable
+@external
+def __init__():
+	self.greet = "Hello Vyper!"
