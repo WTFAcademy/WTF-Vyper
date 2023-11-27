@@ -23,3 +23,5 @@ Lead by [0x0077](https://github.com/0x0077).
 - [Vyper 官方文档](https://vyper.readthedocs.io/en/latest/)
 - [Curve.Fi](https://curve.readthedocs.io/guide-code-style.html)
 - [Yearn.fi](https://docs.yearn.fi/)
+- [Vyper-by-example](https://vyper-by-example.org/)
+  - [Vyper-by-example 中文版](https://github.com/Web3-Club/vyper-by-example_Chinese)
