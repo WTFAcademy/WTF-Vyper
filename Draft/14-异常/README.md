@@ -13,7 +13,7 @@ def get_revert(_number: uint256):
 		raise "wrong number"
 ```
 
-![raise](./raise.png)
+![raise](./image/raise.png)
 
 #### 错误字符串不是必需的，但如果提供，其长度限制为 `1024` 字节
 
@@ -34,7 +34,7 @@ def check_assert(_number: uint256):
 		raise "wrong number"
 ```
 
-![assert](./assert.png)
+![assert](./image/assert.png)
 
 #### 与 `raise` 一样，如果提供错误字符串，其长度限制为 `1024` 字节
 
