@@ -44,7 +44,7 @@ def call_internal_function(_new_num: uint256):
 ```
 #### 示例中，我们定义了一个内部函数 `_internal_function`, 每次调用都更新 `num2` 的值，它只能由合约内部调用。然后我们再定义了一个外部函数 `call_internal_function`，用来调用内部函数 `_internal_function`
 
-![call_function](./call.png)
+![call_function](./image/call.png)
 
 ### 2. view & pure
 - #### `view` 表示函数是一个视图函数，可以读取但不修改合约的状态。常用于获取合约的当前状态或计算结果，而不产生任何区块链上的状态变化
@@ -80,7 +80,7 @@ def external_pure_function() -> uint256:
 	return 100
 ```
 
-![view](./view.png)
+![view](./image/view.png)
 
 ### 3. payable
 #### 只有标记为 `@payable` 的构造函数或者功能函数才能接收ETH转账。特殊情况下不想要指定函数接收ETH，那么可以使用Vyper的内置函数 `__default__`，使用default函数表示允许合约接收ETH，用户可以直接往合约地址里转入ETH
@@ -103,9 +103,9 @@ def __default__():
 	pass
 ```
 
-![构造函数](./eth1.png)
-![调用函数](./eth2.png)
-![直接转ETH](./eth3.png)
+![构造函数](./image/eth1.png)
+![调用函数](./image/eth2.png)
+![直接转ETH](./image/eth3.png)
 
 ### 4. nonreentrant
 #### 用于防止函数的重入，确保函数在同一交易中不会被重复调用, 非常重要的安全特性，尤其在处理资金交易时。
@@ -119,7 +119,7 @@ def __default__():
 #### 代码示例
 ```
 @nonreentrant("lock")
-@view
+@external
 def sensitive_function():
     pass
 ```

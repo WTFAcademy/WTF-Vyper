@@ -41,7 +41,7 @@ def update_balance():
 	self.num = self.get_balance()
 ```
 
-![return](./return.png)
+![return](./image/return.png)
 
 ## 总结
 #### 在本节中，我们介绍了函数输出 `return` 的用法，需要注意的是确保返回类型与函数定义匹配，并且考虑输出的可读性和易用性，特别是在返回多个值时。

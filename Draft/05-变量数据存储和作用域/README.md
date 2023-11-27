@@ -26,7 +26,7 @@ balances: public(uint256)
 def update_balance(_new_balance: uint256):
 	self.balances = _new_balance
 ```
-![new_balance](./new_balance.png)
+![new_balance](./image/new_balance.png)
 
 2. 存储变量给内存变量赋值，修改内存变量的值不会影响存储变量
 
@@ -38,7 +38,7 @@ def update_balance():
 	memory_balance: uint256 = self.balance
 	memory_balance += 1
 ```
-![memory_balance](./memory_balance.png)
+![memory_balance](./image/memory_balance.png)
 
 
 ### 内存(Memory)
@@ -76,7 +76,7 @@ def __init__():
 def get_immutable_number() -> uint256:
 	return NUMBER
 ```
-![immutable](./immutable.png)
+![immutable](./image/immutable.png)
 
 ### 4. 常量(constant)
 - `constant` 是编译时确定的常数，不占用存储空间
@@ -93,7 +93,7 @@ OWNER: constant(address) = 0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE
 def get_owner() -> address:
 	return OWNER
 ```
-![constant](./constant.png)
+![constant](./image/constant.png)
 
 ## 2. 变量作用域
 #### 变量的作用域决定了在哪里可以访问这些变量。Vyper中总共有3种作用域：全局变量(global variable)、局部变量(local variable)和状态变量(state variable)。
@@ -128,7 +128,7 @@ def env_variable() -> (address, uint256, Bytes[255]):
 
 	return caller, block_number, call_data
 ```
-![evn_variable](./env_variable.png)
+![evn_variable](./image/env_variable.png)
 
 
 #### 自变量
@@ -158,7 +158,7 @@ def _times_two(_amount: uint256) -> uint256:
 def calculate(_amount: uint256) -> uint256:
     return self._times_two(_amount)
 ```
-![self_variable](./self_variable.png)
+![self_variable](./image/self_variable.png)
 
 
 #### 自定义常量
