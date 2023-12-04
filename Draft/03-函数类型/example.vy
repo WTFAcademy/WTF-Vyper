@@ -3,6 +3,10 @@
 num1: public(uint256)
 num2: public(uint256)
 
+@payable
+@external
+def __init__():
+	pass
 
 @view
 @internal
