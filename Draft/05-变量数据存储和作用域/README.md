@@ -12,7 +12,7 @@
 #### 代码示例
 ```
 owner: public(address)
-balance: uint256
+balances: uint256
 ```
 #### 有一点需要补充是，在存储中如果看到 `public`关键字，代表这个变量是可读的，作用与 `view` 函数一样，反之则是内部变量。
 
@@ -31,10 +31,10 @@ def update_balance(_new_balance: uint256):
 2. 存储变量给内存变量赋值，修改内存变量的值不会影响存储变量
 
 ```
-balance: public(uint256)
+balances: public(uint256)
 
 @external
-def update_balance():
+def update_balance1():
 	memory_balance: uint256 = self.balance
 	memory_balance += 1
 ```
@@ -50,7 +50,7 @@ def update_balance():
 ```
 @view
 @external
-def update_balance(_new_balance: uint256) -> return:
+def update_balance(_new_balance: uint256) -> uint256:
 	balance: uint256 = 100
 	return balance * _new_balance
 ```
