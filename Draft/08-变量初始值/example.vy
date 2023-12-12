@@ -16,5 +16,7 @@ struct ExampleStruct:
 	id: uint256
 	name: address
 
+example_struct: public(ExampleStruct) 
+
 example_array: public(uint256[3])
 example_dynarray: public(DynArray[uint256, 3])
