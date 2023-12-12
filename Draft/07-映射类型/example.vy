@@ -1,6 +1,6 @@
 # @version 0.3.9
 
-example_mapping: HashMap[uint256, uint256]
+example_mapping: public(HashMap[uint256, uint256])
 
 # 映射赋值
 @external
