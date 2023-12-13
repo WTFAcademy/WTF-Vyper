@@ -1,7 +1,7 @@
 # @version 0.3.9
 
 balances: uint256
-num: uint256
+num: public(uint256)
 num1: public(uint256)
 num2: public(uint256)
 num3: public(uint256)

@@ -3,7 +3,6 @@
 num1: public(uint256)
 num2: public(uint256)
 
-
 @view
 @internal
 def _internal_view_function() -> uint256:

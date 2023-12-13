@@ -9,9 +9,9 @@
 - 固定长度数组：在声明时指定数组的长度，长度不可变，用于存储已知且不变数量的元素。使用`typeName[N]` 格式声明，其中N是元素数量
 #### 示例代码
 ```
-owners: address[3]
-numbers: uint256[3]
-bytess: bytes32[3]
+owners: public(address[3])
+numbers: public(uint256[3])
+bytess: public(bytes32[3])
 ```
 #### 注意：如果需要声明 `Bytes[N]` 数组，需要使用关键字 `DynArray` 来创建数组
 
@@ -20,7 +20,7 @@ bytess: bytes32[3]
 #### 示例代码
 ```
 # 声明一个整数数组
-example_list: DynArray[uint256, 3]
+example_list: public(DynArray[uint256, 3])
 
 @external
 def setting():
