@@ -8,12 +8,12 @@ struct MyStruct:
 example_struct: public(MyStruct)
 
 # 固定数组
-owners: address[3]
-numbers: uint256[3]
-bytess: bytes32[3]
+owners: public(address[3])
+numbers: public(uint256[3])
+bytess: public(bytes32[3])
 
 # 声明一个整数数组
-example_list: DynArray[uint256, 3]
+example_list: public(DynArray[uint256, 3])
 
 @external
 def setting():
