@@ -103,7 +103,7 @@ def get_name(_token: address) -> String[50]:
 
 @view
 @external
-def get_name(_token: address) -> String[50]:
+def get_erc721_name(_token: address) -> String[50]:
 	return ERC721(_token).name()
 
 ```
