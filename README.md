@@ -20,6 +20,8 @@ Lead by [0x0077](https://github.com/0x0077).
 
 **第2讲: 值类型** [Code](./02_ValueTypes/ValueTypes.vy) | [教程](./02_ValueTypes/README.md)
 
+**第3讲: 函数** [Code](./03_function/function.vy) | [教程](./03_function/README.md)
+
 
 ## 资料
 - [Vyper 官方文档](https://vyper.readthedocs.io/en/latest/)
