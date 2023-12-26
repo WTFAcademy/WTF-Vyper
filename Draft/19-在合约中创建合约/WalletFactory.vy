@@ -15,7 +15,7 @@ COLLISION_OFFSET: constant(bytes1) = 0xFF
 
 implementation: public(address)
 wallet: public(address)
-all_wallet_lenght: public(uint256)
+all_wallet_length: public(uint256)
 all_wallets: public(HashMap[uint256, address])
 is_wallet: public(HashMap[address, bool])
 
@@ -56,9 +56,9 @@ def create_wallet(_salt: bytes32) -> address:
     new_wallet: address = create_minimal_proxy_to(self.wallet, salt=_salt)
     assert ProxyWallet(new_wallet).initialization(self.implementation)
 
-    self.all_wallets[self.all_wallet_lenght] = new_wallet
+    self.all_wallets[self.all_wallet_length] = new_wallet
     self.is_wallet[new_wallet] = True
-    self.all_wallet_lenght += 1
+    self.all_wallet_length += 1
     
     log WalletCreate(new_wallet, 0, _salt)
 
