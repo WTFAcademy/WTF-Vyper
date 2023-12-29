@@ -9,15 +9,15 @@ def send_eth(_receiver: address, _amount: uint256):
 
 @external
 def raw_call_eth(_receiver: address, _amount: uint256):
-    responce: Bytes[32] = raw_call(
+    response: Bytes[32] = raw_call(
         _receiver, 
         b"", 
         value=_amount, 
         max_outsize=32
     )
 
-    if len(responce) != 0:
-        assert convert(responce, bool)
+    if len(response) != 0:
+        assert convert(response, bool)
 
 
 @external
