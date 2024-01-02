@@ -7,7 +7,7 @@ event CreateNewContract:
 
 
 all_copied: public(HashMap[uint256, address])
-all_copied_lenght: public(uint256)
+all_copied_length: public(uint256)
 target: public(address)
 
 
@@ -19,8 +19,8 @@ def __init__(_target: address):
 @external
 def create_contract_copy(_salt: bytes32) -> address:
     new_contract: address = create_copy_of(self.target, salt=_salt)
-    self.all_copied[self.all_copied_lenght] = new_contract
-    self.all_copied_lenght += 1
+    self.all_copied[self.all_copied_length] = new_contract
+    self.all_copied_length += 1
     log CreateNewContract(new_contract, _salt)
 
     return new_contract
