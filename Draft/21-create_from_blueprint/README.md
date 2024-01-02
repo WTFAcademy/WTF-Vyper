@@ -6,7 +6,7 @@
 
 1. **独立的状态存储:** 和 `create_copy_of` 一样，`create_from_blueprint` 创建的合约副本与原始合约共享相同的代码，但它们的状态是独立的
 2. **部署成本:** 创建过程中的 gas 消耗会根据蓝图合约的复杂性而变
-3. **构造函数:** 与 `create_minimal_proxy_to` 和 `create_copy_of` `不同，create_from_blueprint` 允许调用构造函数
+3. **构造函数:** 与 `create_minimal_proxy_to` 和 `create_copy_of` 不同，`create_from_blueprint` 允许调用构造函数
 4. **应用场景:** 当需要根据统一模板多次创建类似合约，并且每次创建时都需要一些初始化操作时，`create_from_blueprint` 是一个非常合适的选择。
 
 ## 语法
@@ -45,7 +45,7 @@ event Approval:
     spender: indexed(address)
     value: uint256
 
-name: public(immutable(String[33]))  # trigger different codegen
+name: public(immutable(String[32]))  # trigger different codegen
 symbol: public(immutable(String[32]))
 decimals: public(immutable(uint8))
 
