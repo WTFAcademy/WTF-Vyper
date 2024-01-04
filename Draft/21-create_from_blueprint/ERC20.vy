@@ -14,7 +14,7 @@ event Approval:
     spender: indexed(address)
     value: uint256
 
-name: public(immutable(String[33]))  # trigger different codegen
+name: public(immutable(String[32]))  # trigger different codegen
 symbol: public(immutable(String[32]))
 decimals: public(immutable(uint8))
 
