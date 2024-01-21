@@ -25,6 +25,7 @@ Lead by [0x0077](https://github.com/0x0077).
 
 ## 资料
 - [Vyper 官方文档](https://vyper.readthedocs.io/en/latest/)
+- [Vyper Online Compiler](https://github.com/0x0077/vyper-online-compiler)
 - [Curve.Fi](https://curve.readthedocs.io/guide-code-style.html)
 - [Yearn.fi](https://docs.yearn.fi/)
 - [Vyper-by-example](https://vyper-by-example.org/)
