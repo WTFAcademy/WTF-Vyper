@@ -50,7 +50,7 @@ pip3 install eth-ape
 开发常用插件包括 `hardhat` 和 `alchemy`。使用`alchemy`需要本地设置`key`，详情见[这里](https://academy.apeworx.io/articles/account-tutorial)。
 
 ```bash
-ape plugins install hardhat, alchemy
+ape plugins install hardhat alchemy
 ```
 
 ### 4. 初始化项目
