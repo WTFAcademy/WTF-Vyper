@@ -64,6 +64,16 @@ Lead by [0x0077](https://github.com/0x0077).
 
 **第24讲: 选择器** [Code](./24_Selector/example.vy) | [教程](./24_Selector/README.md)
 
+## WTF Vyper贡献者
+<div align="center">
+  <h4 align="center">
+    贡献者是WTF学院的基石
+  </h4>
+  <a href="https://github.com/WTFAcademy/WTF-Vyper/graphs/contributors">
+    <img src="https://contrib.rocks/image?repo=WTFAcademy/WTF-Vyper" />
+  </a>
+</div>
+
 ## 资料
 - [Vyper 官方文档](https://vyper.readthedocs.io/en/latest/)
 - [Vyper Online Compiler](https://github.com/0x0077/vyper-online-compiler)
