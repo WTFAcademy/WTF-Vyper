@@ -1,4 +1,4 @@
-# pragma version 0.3.10
+#pragma version 0.3.9
 
 from vyper.interfaces import ERC20
 from vyper.interfaces import ERC20Detailed
@@ -22,17 +22,17 @@ totalSupply: public(uint256)
 balanceOf: public(HashMap[address, uint256])
 allowance: public(HashMap[address, HashMap[address, uint256]])
 
-name: public(immutable(String[32]))
-symbol: public(immutable(String[32]))
-decimals: public(immutable(uint8))
+name: public(String[32])
+symbol: public(String[32])
+decimals: public(uint8)
 
 
 @payable
 @external
 def __init__(_name: String[32], _symbol: String[32], _decimals: uint8, _total_supply: uint256):
-    name = _name
-    symbol = _symbol
-    decimals = _decimals
+    self.name = _name
+    self.symbol = _symbol
+    self.decimals = _decimals
     self.totalSupply = _total_supply
 
 

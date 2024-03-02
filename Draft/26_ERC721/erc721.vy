@@ -1,10 +1,10 @@
 #pragma version 0.3.10
 
 from vyper.interfaces import ERC165
-implements: ERC165
-
 from vyper.interfaces import ERC721
+
 implements: ERC721
+implements: ERC165
 
 interface ERC721Receiver:
     def onERC721Received(
@@ -37,12 +37,13 @@ ownerToNFTokenCount: HashMap[address, uint256]
 ownerToOperators: HashMap[address, HashMap[address, bool]]
 minter: address
 baseURL: String[67]
-name: public(immutable(String[25]))
-symbol: public(immutable(String[25]))
+name: public(String[25])
+symbol: public(String[25])
 
-SUPPORTED_INTERFACES: constant(bytes4[4]) = [
+SUPPORTED_INTERFACES: constant(bytes4[5]) = [
     0x01ffc9a7,
     0x80ac58cd,
+    0x150b7a02,
     0x5B5E139F,
     0x780E9D63
 ]
@@ -51,8 +52,8 @@ SUPPORTED_INTERFACES: constant(bytes4[4]) = [
 @payable
 @external
 def __init__():
-    name = "PudgyPenguins"
-    symbol = "PPG"
+    self.name = "PudgyPenguins"
+    self.symbol = "PPG"
     self.minter = msg.sender
     self.baseURL = "ipfs://bafybeibc5sgo2plmjkq2tzmhrn54bk3crhnc23zd2msg4ea7a4pxrkgfna/"
 

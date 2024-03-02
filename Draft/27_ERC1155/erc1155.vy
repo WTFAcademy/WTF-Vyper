@@ -20,6 +20,8 @@ interface IERC1155Receiver:
         data: Bytes[_CALLBACK_NUMBYTES],
     ) -> bytes4: payable
 
+interface IERC1155MetadataURI:
+    def uri(id: uint256) -> String[512]: view
 
 event TransferSingle:
     operator: indexed(address)
@@ -56,8 +58,8 @@ _BATCH_SIZE: constant(uint16) = 255
 _BASE_URI: immutable(String[80])
 _CALLBACK_NUMBYTES: constant(uint256) = 4096
 
-name: public(immutable(String[25]))
-symbol: public(immutable(String[25]))
+name: public(String[25])
+symbol: public(String[25])
 isApprovedForAll: public(HashMap[address, HashMap[address, bool]])
 total_supply: public(HashMap[uint256, uint256])
 is_minter: public(HashMap[address, bool])
@@ -69,8 +71,8 @@ _token_uris: HashMap[uint256, String[432]]
 @external
 @payable
 def __init__():
-    name = "PudgyPenguins"
-    symbol = "PPG"
+    self.name = "PudgyPenguins"
+    self.symbol = "PPG"
     _BASE_URI = "ipfs://bafybeibc5sgo2plmjkq2tzmhrn54bk3crhnc23zd2msg4ea7a4pxrkgfna/"
     self.is_minter[msg.sender] = True
 
@@ -347,4 +349,3 @@ def _after_token_transfer(owner: address, to: address, ids: DynArray[uint256, _B
 @pure
 def _as_singleton_array(element: uint256) -> DynArray[uint256, 1]:
     return [element]
-
