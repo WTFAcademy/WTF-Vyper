@@ -1,10 +1,10 @@
 #pragma version 0.3.10
 
 from vyper.interfaces import ERC165
-implements: ERC165
-
 from vyper.interfaces import ERC721
+
 implements: ERC721
+implements: ERC165
 
 interface ERC721Receiver:
     def onERC721Received(
@@ -37,12 +37,13 @@ ownerToNFTokenCount: HashMap[address, uint256]
 ownerToOperators: HashMap[address, HashMap[address, bool]]
 minter: address
 baseURL: String[67]
-name: public(immutable(String[25]))
-symbol: public(immutable(String[25]))
+name: public(String[25])
+symbol: public(String[25])
 
-SUPPORTED_INTERFACES: constant(bytes4[4]) = [
+SUPPORTED_INTERFACES: constant(bytes4[5]) = [
     0x01ffc9a7,
     0x80ac58cd,
+    0x150b7a02,
     0x5B5E139F,
     0x780E9D63
 ]
@@ -51,8 +52,8 @@ SUPPORTED_INTERFACES: constant(bytes4[4]) = [
 @payable
 @external
 def __init__():
-    name = "PudgyPenguins"
-    symbol = "PPG"
+    self.name = "PudgyPenguins"
+    self.symbol = "PPG"
     self.minter = msg.sender
     self.baseURL = "ipfs://bafybeibc5sgo2plmjkq2tzmhrn54bk3crhnc23zd2msg4ea7a4pxrkgfna/"
 
@@ -133,22 +134,6 @@ def _transferFrom(_from: address, _to: address, _tokenId: uint256, _sender: addr
     self._addTokenTo(_to, _tokenId)
     log Transfer(_from, _to, _tokenId)
 
-
-@internal
-def _check_on_erc721_received(
-    _from: address, 
-    _to: address,
-    _token_id: uint256,
-    _data: Bytes[1024]
-) -> bool:
-    if (_to.is_contract):
-        return_value: bytes4 = ERC721Receiver(_to).onERC721Received(msg.sender, _from, _token_id, _data)
-        assert return_value == method_id("onERC721Received(address,address,uint256,bytes)", output_type=bytes4)
-        return True
-    else:
-        return True
-
-
 @external
 @payable
 def transferFrom(_from: address, _to: address, _tokenId: uint256):
@@ -164,7 +149,9 @@ def safeTransferFrom(
         _data: Bytes[1024]=b""
     ):
     self._transferFrom(_from, _to, _tokenId, msg.sender)
-    assert self._check_on_erc721_received(_from, _to, _tokenId, _data)
+    if _to.is_contract: 
+        returnValue: bytes4 = ERC721Receiver(_to).onERC721Received(msg.sender, _from, _tokenId, _data)
+        assert returnValue == method_id("onERC721Received(address,address,uint256,bytes)", output_type=bytes4)
 
 
 @external
