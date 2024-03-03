@@ -402,22 +402,6 @@ def _transfer_from(_from: address, _to: address, _value_or_id: uint256) -> bool:
         return self._erc20_transfer_from(_from, _to, _value_or_id)
     return True
 
-
-@internal
-def _check_on_erc721_received(
-    _from: address, 
-    _to: address,
-    _token_id: uint256,
-    _data: Bytes[1024]
-) -> bool:
-    if (_to.is_contract):
-        return_value: bytes4 = ERC721Receiver(_to).onERC721Received(msg.sender, _from, _token_id, _data)
-        assert return_value == method_id("onERC721Received(address,address,uint256,bytes)", output_type=bytes4)
-        return True
-    else:
-        return True
-
-
 @internal
 def _reinstate_erc721_balance(_target: address):
     expected_erc721_balance: uint256 = self.balanceOf[_target] / self.units
@@ -583,11 +567,13 @@ def transfer(_to: address, _value: uint256) -> bool:
 
 @payable
 @external
-def safeTransferFrom(_from: address, _to: address, _id: uint256, _data: Bytes[1024]=b""):
-    assert not self._is_valid_token_id(_id), "INVALID TOKEN ID"
+def safeTransferFrom(_from: address, _to: address, _token_id: uint256, _data: Bytes[1024]=b""):
+    assert not self._is_valid_token_id(_token_id), "INVALID TOKEN ID"
 
-    self._transfer_from(_from, _to, _id)
-    assert self._check_on_erc721_received(_from, _to, _id, _data), "UNSAFE RECIPIENT"
+    self._transfer_from(_from, _to, _token_id)
+    if (_to.is_contract):
+        return_value: bytes4 = ERC721Receiver(_to).onERC721Received(msg.sender, _from, _token_id, _data)
+        assert return_value == method_id("onERC721Received(address,address,uint256,bytes)", output_type=bytes4)
 
 
 @external

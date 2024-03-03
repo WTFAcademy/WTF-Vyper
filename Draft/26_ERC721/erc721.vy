@@ -134,22 +134,6 @@ def _transferFrom(_from: address, _to: address, _tokenId: uint256, _sender: addr
     self._addTokenTo(_to, _tokenId)
     log Transfer(_from, _to, _tokenId)
 
-
-@internal
-def _check_on_erc721_received(
-    _from: address, 
-    _to: address,
-    _token_id: uint256,
-    _data: Bytes[1024]
-) -> bool:
-    if (_to.is_contract):
-        return_value: bytes4 = ERC721Receiver(_to).onERC721Received(msg.sender, _from, _token_id, _data)
-        assert return_value == method_id("onERC721Received(address,address,uint256,bytes)", output_type=bytes4)
-        return True
-    else:
-        return True
-
-
 @external
 @payable
 def transferFrom(_from: address, _to: address, _tokenId: uint256):
@@ -165,7 +149,9 @@ def safeTransferFrom(
         _data: Bytes[1024]=b""
     ):
     self._transferFrom(_from, _to, _tokenId, msg.sender)
-    assert self._check_on_erc721_received(_from, _to, _tokenId, _data)
+    if _to.is_contract: 
+        returnValue: bytes4 = ERC721Receiver(_to).onERC721Received(msg.sender, _from, _tokenId, _data)
+        assert returnValue == method_id("onERC721Received(address,address,uint256,bytes)", output_type=bytes4)
 
 
 @external

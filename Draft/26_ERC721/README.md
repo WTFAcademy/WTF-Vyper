@@ -204,19 +204,18 @@ interface ERC721Receiver:
         ) -> bytes4: nonpayable
 
 
-@internal
-def _check_on_erc721_received(
-    _from: address,
-    _to: address,
-    _token_id: uint256,
-    _data: Bytes[1024]
-) -> bool:
-    if (_to.is_contract):
-        return_value: bytes4 = ERC721Receiver(_to).onERC721Received(msg.sender, _from, _token_id, _data)
-        assert return_value == method_id("onERC721Received(address,address,uint256,bytes)", output_type=bytes4)
-        return True
-    else:
-        return True
+@external
+@payable
+def safeTransferFrom(
+        _from: address,
+        _to: address,
+        _tokenId: uint256,
+        _data: Bytes[1024]=b""
+    ):
+    self._transferFrom(_from, _to, _tokenId, msg.sender)
+    if _to.is_contract:
+        returnValue: bytes4 = ERC721Receiver(_to).onERC721Received(msg.sender, _from, _tokenId, _data)
+        assert returnValue == method_id("onERC721Received(address,address,uint256,bytes)", output_type=bytes4)
 ```
 
 ## ERC721Metadata

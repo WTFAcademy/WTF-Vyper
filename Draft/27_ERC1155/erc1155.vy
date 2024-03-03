@@ -305,9 +305,7 @@ def _check_on_erc1155_received(owner: address, to: address, id: uint256, amount:
     if (to.is_contract):
         return_value: bytes4 = IERC1155Receiver(to).onERC1155Received(msg.sender, owner, id, amount, data)
         assert return_value == method_id("onERC1155Received(address,address,uint256,uint256,bytes)", output_type=bytes4)
-        return True
-    else:
-        return True
+    return True
 
 
 @internal
@@ -316,9 +314,8 @@ def _check_on_erc1155_batch_received(owner: address, to: address, ids: DynArray[
     if (to.is_contract):
         return_value: bytes4 = IERC1155Receiver(to).onERC1155BatchReceived(msg.sender, owner, ids, amounts, data)
         assert return_value == method_id("onERC1155BatchReceived(address,address,uint256[],uint256[],bytes)", output_type=bytes4)
-        return True
-    else:
-        return True
+    return True
+
 
 
 @internal
