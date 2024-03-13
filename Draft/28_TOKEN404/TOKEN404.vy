@@ -1,5 +1,6 @@
-# pragma version 0.3.10
+# pragma version >0.3.10
 """
+@title TOKEN404 - is commonly referred to as ERC404; however, it does not adhere to the ERC20 standard and is instead considered a novel approach.
 @author 0x77
 """
 
@@ -88,7 +89,7 @@ owner: public(address)
 
 SUPPORTED_INTERFACES: constant(bytes4[2]) = [
     0x01ffc9a7, # ERC165
-    0xcaf91ff5 # ERC404
+    0xcaf91ff5 # TOKEN404
 ]
 
 @external
@@ -104,7 +105,7 @@ def __init__(
     self.symbol = _symbol
     self.version = _version
     
-    assert _decimals >= 18, "ERC404: DECIMALS TOO LOW"
+    assert _decimals >= 18, "TOKEN404: DECIMALS TOO LOW"
     self.decimals = _decimals
     self.units = 10 ** convert(_decimals, uint256)
 

@@ -1,14 +1,14 @@
-# Vyper 入门: 28. ERC404
-`ERC404` 代币标准是一种实验性以太坊代币标准，旨在将可替代代币 `ERC20` 和不可替代代币 `ERC721` 的特征合并为混合形式，从而允许在区块链上实现唯一且可分割的资产表示。
+# Vyper 入门: 28. TOKEN404
+`TOKEN404` 代币标准是一种实验性以太坊代币新玩法，旨在将可替代代币 `ERC20` 和不可替代代币 `ERC721` 的特征合并为混合形式，从而允许在区块链上实现唯一且可分割的资产表示。
 
 
-## `ERC404` 标准
-`ERC404` 是一种尝试性的代币标准，它巧妙地结合了 `ERC20` 代币和 `ERC-721` 代币的特性。这种创新让我们能够拥有单个NFT的一部分。
+## `TOKEN404` 
+`TOKEN404` 是一种尝试性的代币标准，它巧妙地结合了 `ERC20` 代币和 `ERC-721` 代币的特性。这种创新让我们能够拥有单个NFT的一部分。
 
-简而言之，`ERC404` 试图为数字资产带来更多的灵活性和流动性，但是这个标准还是非官方的、处于实验阶段。
+简而言之，`TOKEN404` 试图为数字资产带来更多的灵活性和流动性，但是这个标准还是非官方的、处于实验阶段。
 
 ### 优点
-和 `ERC721` 相比，`ERC404` 有几个明显的优点:
+和 `ERC721` 相比，`TOKEN404` 有几个明显的优点:
 - `增加流动性`: 这一创新让 `NFT` 的买卖不仅限于传统的 `NFT` 市场，还能在去中心化交易所进行，大大提升了买家和卖家的可获取性。但这也意味着，项目方需要额外建立一个流动性池，并发行自己的加密货币来配合 `NFT` 系列的发布
 
 - `部分所有权`: 你可以拥有一个 `NFT` 的一部分，这让 `NFT` 变得更加平易近人，让更多的人能够负担得起并参与进来
@@ -19,32 +19,32 @@
 ### 机制
 接下来我们了解下它的运作原理
 
-假设我们部署了一个 `ERC404` 代币，其中包含 `10000` 个 `WTF` 代币和相对应的 `10000` 个镜像 `WTFNFT`
+假设我们部署了一个 `TOKEN404` 代币，其中包含 `10000` 个 `WTF` 代币和相对应的 `10000` 个镜像 `WTFNFT`
 
-当我们在 `Uniswap` 上购买 `WTF` 代币会发生什么？我们从 `ERC404` 流程图中查看
+当我们在 `Uniswap` 上购买 `WTF` 代币会发生什么？我们从 `TOKEN404` 流程图中查看
 
 (图来自网络)
-![erc404](./images/erc404.webp)
+![token404](./images/token404.webp)
 
 从图中我们可以看到，如果我在 `Uniswap` 上购买 1个 `WTF`，我会收到 1个 `WTF` 代币和 1个 `WTFNFT`，如果购买数量少于1个 `WTF`，那么不会收到 `WTFNFT`，只有购买整数代币时才会收到 `NFT`，收到的 `NFT` 由合约自动完成的，因此是随机的并且具有稀有度。
 
 如果你卖出 1个 `WTF`代币，那么对应的 1个 `WTFNFT`将会被燃烧。
 如果觉得这张图讲的不够完整，可以看下面这张更完整的流程图:
 
-![erc404-1](./images/erc404-1.webp)
+![token404-1](./images/token404-1.webp)
 
 
-接下来我们将实现一个 `ERC404` 合约并部署它
+接下来我们将实现一个 `TOKEN404` 合约并部署它
 
-## `ERC404` 实现
-与 `ERC721` 相同，`ERC404` 也需要实现 `ERC165` 接口:
+## `TOKEN404` 实现
+与 `ERC721` 相同，`TOKEN404` 也需要实现 `ERC165` 接口:
 ```
 from vyper.interfaces import ERC165
 implements: ERC165
 
 SUPPORTED_INTERFACES: constant(bytes4[2]) = [
     0x01ffc9a7, # ERC165
-    0xcaf91ff5 # ERC404
+    0xcaf91ff5 # TOKEN404
 ]
 
 @view
@@ -53,8 +53,8 @@ def supportsInterface(_interface_id: bytes4) -> bool:
     return _interface_id in SUPPORTED_INTERFACES
 ```
 
-### `ERC404` 接口合约
-由于 `ERC404` 标准相对较新，尚未经过正式审核，所有合约接口可能会在未来进行修改。`ERC404` 接口实现了 `ERC20` 和 `ERC721` 的所有接口，所以本节中我们将介绍 `ERC404` 独有的接口
+### `TOKEN404` 接口合约
+由于 `TOKEN404` 标准相对较新，尚未经过正式审核，所有合约接口可能会在未来进行修改。`TOKEN404` 接口实现了 `ERC20` 和 `ERC721` 的所有接口，所以本节中我们将介绍 `TOKEN404` 独有的接口
 
 - `erc20TotalSupply`: 查询 `ERC20` 代币总供应量
 ```
@@ -127,7 +127,7 @@ def setSelfERC721TransferExempt(_target: address, _state: bool):
     pass
 ```
 
-### `ERC404` 事件接口
+### `TOKEN404` 事件接口
 由于 `Vyper` 中无法导入外部合约文件的函数，为了避免 `ERC20` 和 `ERC721` 事件命名冲突，我们需要先部署一个 `IERC20Event` 合约。`0.4` 版本开始可能会支持从导入外部合约文件，导入代码示例:
 ```
 # demo.vy
@@ -180,7 +180,7 @@ def transfer_event(_sender: address, _receiver: address, _value: uint256) -> boo
 
 ## ERC721Receiver
 
-和 `ERC721` 一样，`ERC404` 同样需要实现 `onERC721Received` 函数用于处理 `NFT` 接受者是合约的情况 
+和 `ERC721` 一样，`TOKEN404` 同样需要实现 `onERC721Received` 函数用于处理 `NFT` 接受者是合约的情况 
 
 ```
 interface ERC721Receiver:
@@ -192,8 +192,8 @@ interface ERC721Receiver:
         ) -> bytes4: nonpayable
 ```
 
-## `ERC404` 转帐逻辑
-接下来我们介绍 `ERC404` 中实现 `ERC20` 和 `ERC721` 的转帐逻辑，结合了一种特殊的机制来处理 `ERC20` 和 `ERC721` 的互动
+## `TOKEN404` 转帐逻辑
+接下来我们介绍 `TOKEN404` 中实现 `ERC20` 和 `ERC721` 的转帐逻辑，结合了一种特殊的机制来处理 `ERC20` 和 `ERC721` 的互动
 
 ### `ERC20` 转账逻辑 
 `_transfer_erc20`
@@ -305,11 +305,11 @@ def _transfer_erc20_with_erc721(_from: address, _to: address, _value: uint256) -
 以上是合约的核心转移逻辑部分，需要查看完整合约代码点击 [点击这里](./erc404.vy)
 
 
-## `ERC404` 部署
+## `TOKEN404` 部署
 
-接下来我们编译部署一个 `ERC404` 代币
+接下来我们编译部署一个 `TOKEN404` 代币
 1. 部署 `IERC20Event` 
-2. 部署一个名为 `WTF` 的 `ERC404` 合约，初始供应量为 `10000`
+2. 部署一个名为 `WTF` 的 `TOKEN404` 合约，初始供应量为 `10000`
 
 ![deploy](./images/deploy.png)
 
@@ -321,4 +321,4 @@ def _transfer_erc20_with_erc721(_from: address, _to: address, _value: uint256) -
 
 
 ## 总结
-本节中我们介绍了 `ERC404` 标准，ERC-404是一个较新的标准，它旨在为ERC-20和ERC-721代币提供一种统一的转账和处理逻辑。本节中使用的 `Vyper` 合约还未进行审核并有很多需要调整的地方，请不要直接使用在生产中。
+本节中我们介绍了 `TOKEN404` 标准，ERC-404是一个较新的标准，它旨在为ERC-20和ERC-721代币提供一种统一的转账和处理逻辑。本节中使用的 `Vyper` 合约还未进行审核并有很多需要调整的地方，请不要直接使用在生产中。
