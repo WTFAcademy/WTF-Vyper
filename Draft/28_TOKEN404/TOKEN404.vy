@@ -413,8 +413,7 @@ def _check_on_erc721_received(
 ) -> bool:
     if (_to.is_contract):
         return_value: bytes4 = ERC721Receiver(_to).onERC721Received(msg.sender, _from, _token_id, _data)
-        assert return_value == method_id("onERC721Received(address,address,uint256,bytes)", output_type=bytes4)
-        return True
+        return return_value == method_id("onERC721Received(address,address,uint256,bytes)", output_type=bytes4)
     else:
         return True
 

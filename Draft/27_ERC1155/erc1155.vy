@@ -20,6 +20,8 @@ interface IERC1155Receiver:
         data: Bytes[_CALLBACK_NUMBYTES],
     ) -> bytes4: payable
 
+interface IERC1155MetadataURI:
+    def uri(id: uint256) -> String[512]: view
 
 event TransferSingle:
     operator: indexed(address)
@@ -56,8 +58,8 @@ _BATCH_SIZE: constant(uint16) = 255
 _BASE_URI: immutable(String[80])
 _CALLBACK_NUMBYTES: constant(uint256) = 4096
 
-name: public(immutable(String[25]))
-symbol: public(immutable(String[25]))
+name: public(String[25])
+symbol: public(String[25])
 isApprovedForAll: public(HashMap[address, HashMap[address, bool]])
 total_supply: public(HashMap[uint256, uint256])
 is_minter: public(HashMap[address, bool])
@@ -69,8 +71,8 @@ _token_uris: HashMap[uint256, String[432]]
 @external
 @payable
 def __init__():
-    name = "PudgyPenguins"
-    symbol = "PPG"
+    self.name = "PudgyPenguins"
+    self.symbol = "PPG"
     _BASE_URI = "ipfs://bafybeibc5sgo2plmjkq2tzmhrn54bk3crhnc23zd2msg4ea7a4pxrkgfna/"
     self.is_minter[msg.sender] = True
 
@@ -302,8 +304,7 @@ def _burn_batch(owner: address, ids: DynArray[uint256, _BATCH_SIZE], amounts: Dy
 def _check_on_erc1155_received(owner: address, to: address, id: uint256, amount: uint256, data: Bytes[1_024]) -> bool:
     if (to.is_contract):
         return_value: bytes4 = IERC1155Receiver(to).onERC1155Received(msg.sender, owner, id, amount, data)
-        assert return_value == method_id("onERC1155Received(address,address,uint256,uint256,bytes)", output_type=bytes4)
-        return True
+        return return_value == method_id("onERC1155Received(address,address,uint256,uint256,bytes)", output_type=bytes4)
     else:
         return True
 
@@ -313,10 +314,10 @@ def _check_on_erc1155_batch_received(owner: address, to: address, ids: DynArray[
 
     if (to.is_contract):
         return_value: bytes4 = IERC1155Receiver(to).onERC1155BatchReceived(msg.sender, owner, ids, amounts, data)
-        assert return_value == method_id("onERC1155BatchReceived(address,address,uint256[],uint256[],bytes)", output_type=bytes4)
-        return True
+        return return_value == method_id("onERC1155BatchReceived(address,address,uint256[],uint256[],bytes)", output_type=bytes4)
     else:
         return True
+
 
 
 @internal
@@ -347,4 +348,3 @@ def _after_token_transfer(owner: address, to: address, ids: DynArray[uint256, _B
 @pure
 def _as_singleton_array(element: uint256) -> DynArray[uint256, 1]:
     return [element]
-
