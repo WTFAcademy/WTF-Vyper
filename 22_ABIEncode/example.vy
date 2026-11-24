@@ -14,7 +14,7 @@ def foo() -> Bytes[128]:
 def encode_abi() -> Bytes[132]:
     x: uint256 = 1
     y: Bytes[32] = b"234"
-    return _abi_encode(x, y, method_id=method_id("foo()"))
+    return _abi_encode(x, y, method_id=method_id("foo(uint256,bytes)"))
 
 
 # 使用 concat 拼接
@@ -25,9 +25,8 @@ def concat_abi() -> Bytes[132]:
     x: uint256 = 1
     y: Bytes[32] = b"234"
     return concat(
-        method_id("foo()"),
-        convert(x, bytes32),
-        convert(y, bytes32)
+        method_id("foo(uint256,bytes)"),
+        _abi_encode(x, y)
     )
 
 
