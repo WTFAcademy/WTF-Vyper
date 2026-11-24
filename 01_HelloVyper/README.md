@@ -20,7 +20,7 @@ tags:
 Vyper 是一种面向合约的类似于 Python 的编程语言，专为`EVM`设计。与Solidity不同，Vyper强调简单性和安全性，而Solidity则提供更多灵活性和复杂特性。
 
 ## 开发环境
-本讲保留 Vyper 0.3.9 的示例，使用本地编译器和 ApeWorX 运行。
+本讲使用 Vyper 0.4.3，支持本地编译器和 ApeWorX。
 
 这里，我们主要介绍两个开发环境
 
@@ -32,9 +32,9 @@ Vyper 是一种面向合约的类似于 Python 的编程语言，专为`EVM`设�
 使用 `Docker` 和 `PIP` 可安装Vyper。此处使用 `PIP`，其他安装方法见[Vyper官方文档](https://docs.vyperlang.org/en/latest/installing-vyper.html)。
 
 ```bash
-python -m pip install vyper==0.3.9
+python -m pip install vyper==0.4.3
 ```
-示例的 `# @version 0.3.9` 要求使用该编译器版本。
+示例的 `# pragma version 0.4.3` 要求使用该编译器版本。
 
 ### 2. 安装ApeWorX
 ApeWorX是一个与Vyper完全兼容的智能合约开发框架。另一框架`brownie`已停止更新。ApeWorX官网: [ApeWorX](https://apeworx.io)。
@@ -103,18 +103,18 @@ vyper:
 我们的第一个Vyper合约非常简单，仅包含几行代码：
 
 ```vyper
-# @version 0.3.9
+# pragma version 0.4.3
 
 greet: public(String[12])
 
 @payable
-@external
+@deploy
 def __init__():
 	self.greet = "Hello Vyper!"
 ```
 
 代码逐行分析：
-1. 指定Vyper编译器版本 `0.3.9`。
+1. 指定Vyper编译器版本 `0.4.3`。
 2. 声明`public`变量`greet`：`public(String[12])`。
 3. `@payable` 和 `@external` 装饰器。
 4. `__init__`：合约的构造函数。
@@ -167,7 +167,7 @@ from boa.integrations.jupyter import BrowserSigner
 greet: public(String[12])
 
 @payable
-@external
+@deploy
 def __init__():
 	self.greet = "Hello Vyper!"
 ```

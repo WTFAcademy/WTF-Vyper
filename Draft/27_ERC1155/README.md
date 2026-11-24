@@ -190,7 +190,7 @@ def _check_on_erc1155_received(
     data: Bytes[1024]
 ) -> bool:
     if (to.is_contract):
-        return_value: bytes4 = IERC1155Receiver(to).onERC1155Received(msg.sender, owner, id, amount, data)
+        return_value: bytes4 = extcall IERC1155Receiver(to).onERC1155Received(msg.sender, owner, id, amount, data)
         assert return_value == method_id("onERC1155Received(address,address,uint256,uint256,bytes)", output_type=bytes4)
         return True
     else:
@@ -206,7 +206,7 @@ def _check_on_erc1155_batch_received(
     data: Bytes[1024]
 ) -> bool:
     if (to.is_contract):
-        return_value: bytes4 = IERC1155Receiver(to).onERC1155BatchReceived(msg.sender, owner, ids, amounts, data)
+        return_value: bytes4 = extcall IERC1155Receiver(to).onERC1155BatchReceived(msg.sender, owner, ids, amounts, data)
         assert return_value == method_id("onERC1155BatchReceived(address,address,uint256[],uint256[],bytes)", output_type=bytes4)
         return True
     else:
@@ -217,9 +217,9 @@ def _check_on_erc1155_batch_received(
 ## 部署 `ERC1155`
 接下来我们部署一个 `ERC1155` 代币，示例代码如下：
 ```
-# pragma version ^0.3.10
+# pragma version 0.4.3
 
-from vyper.interfaces import ERC165
+from ethereum.ercs import IERC165 as ERC165
 implements: ERC165
 
 
@@ -283,7 +283,7 @@ _balances: HashMap[uint256, HashMap[address, uint256]]
 _token_uris: HashMap[uint256, String[432]]
 
 
-@external
+@deploy
 @payable
 def __init__():
     _BASE_URI = "ipfs://bafybeibc5sgo2plmjkq2tzmhrn54bk3crhnc23zd2msg4ea7a4pxrkgfna/"
@@ -321,7 +321,7 @@ def balanceOfBatch(owners: DynArray[address, _BATCH_SIZE], ids: DynArray[uint256
     assert len(owners) == len(ids), "ERC1155: owners and ids length mismatch"
     batch_balances: DynArray[uint256, _BATCH_SIZE] = []
     idx: uint256 = empty(uint256)
-    for owner in owners:
+    for owner: address in owners:
         batch_balances.append(self._balance_of(owner, ids[idx]))
         idx = unsafe_add(idx, 1)
     return batch_balances
@@ -401,7 +401,7 @@ def _safe_batch_transfer_from(owner: address, to: address, ids: DynArray[uint256
     self._before_token_transfer(owner, to, ids, amounts, data)
 
     idx: uint256 = empty(uint256)
-    for id in ids:
+    for id: uint256 in ids:
         amount: uint256 = amounts[idx]
         owner_balance: uint256 = self._balances[id][owner]
         assert owner_balance >= amount, "ERC1155: insufficient balance for transfer"
@@ -445,7 +445,7 @@ def _safe_mint_batch(owner: address, ids: DynArray[uint256, _BATCH_SIZE], amount
     self._before_token_transfer(empty(address), owner, ids, amounts, data)
 
     idx: uint256 = empty(uint256)
-    for id in ids:
+    for id: uint256 in ids:
         self._balances[id][owner] = unsafe_add(self._balances[id][owner], amounts[idx])
         idx = unsafe_add(idx, 1)
 
@@ -501,7 +501,7 @@ def _burn_batch(owner: address, ids: DynArray[uint256, _BATCH_SIZE], amounts: Dy
     self._before_token_transfer(owner, empty(address), ids, amounts, b"")
 
     idx: uint256 = empty(uint256)
-    for id in ids:
+    for id: uint256 in ids:
         amount: uint256 = amounts[idx]
         owner_balance: uint256 = self._balances[id][owner]
         assert owner_balance >= amount, "ERC1155: burn amount exceeds balance"
@@ -516,7 +516,7 @@ def _burn_batch(owner: address, ids: DynArray[uint256, _BATCH_SIZE], amounts: Dy
 @internal
 def _check_on_erc1155_received(owner: address, to: address, id: uint256, amount: uint256, data: Bytes[1_024]) -> bool:
     if (to.is_contract):
-        return_value: bytes4 = IERC1155Receiver(to).onERC1155Received(msg.sender, owner, id, amount, data)
+        return_value: bytes4 = extcall IERC1155Receiver(to).onERC1155Received(msg.sender, owner, id, amount, data)
         assert return_value == method_id("onERC1155Received(address,address,uint256,uint256,bytes)", output_type=bytes4)
         return True
     else:
@@ -527,7 +527,7 @@ def _check_on_erc1155_received(owner: address, to: address, id: uint256, amount:
 def _check_on_erc1155_batch_received(owner: address, to: address, ids: DynArray[uint256, _BATCH_SIZE], amounts: DynArray[uint256, _BATCH_SIZE], data: Bytes[1_024]) -> bool:
 
     if (to.is_contract):
-        return_value: bytes4 = IERC1155Receiver(to).onERC1155BatchReceived(msg.sender, owner, ids, amounts, data)
+        return_value: bytes4 = extcall IERC1155Receiver(to).onERC1155BatchReceived(msg.sender, owner, ids, amounts, data)
         assert return_value == method_id("onERC1155BatchReceived(address,address,uint256[],uint256[],bytes)", output_type=bytes4)
         return True
     else:
@@ -539,13 +539,13 @@ def _before_token_transfer(owner: address, to: address, ids: DynArray[uint256, _
 
     if (owner == empty(address)):
         idx: uint256 = empty(uint256)
-        for id in ids:
+        for id: uint256 in ids:
             self.total_supply[id] += amounts[idx]
             idx = unsafe_add(idx, 1)
 
     if (to == empty(address)):
         idx: uint256 = empty(uint256)
-        for id in ids:
+        for id: uint256 in ids:
             amount: uint256 = amounts[idx]
             supply: uint256 = self.total_supply[id]
             assert supply >= amount, "ERC1155: burn amount exceeds total_supply"

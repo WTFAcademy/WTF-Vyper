@@ -1,4 +1,4 @@
-# @version 0.3.9
+# pragma version 0.4.3
 
 # 常量
 MAX_SUPPLY: constant(uint256) = 10000
@@ -8,7 +8,7 @@ PERMIT: constant(bytes32) = 0x00000000000000000000000000000000000000000000000000
 OWNER: immutable(address)
 
 @payable
-@external
+@deploy
 def __init__():
 	OWNER = msg.sender
 

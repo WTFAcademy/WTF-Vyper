@@ -1,7 +1,7 @@
-# pragma version 0.3.10
+# pragma version 0.4.3
 
-from vyper.interfaces import ERC20
-from vyper.interfaces import ERC20Detailed
+from ethereum.ercs import IERC20 as ERC20
+from ethereum.ercs import IERC20Detailed as ERC20Detailed
 
 implements: ERC20
 implements: ERC20Detailed
@@ -28,7 +28,7 @@ decimals: public(immutable(uint8))
 
 
 @payable
-@external
+@deploy
 def __init__(_name: String[32], _symbol: String[32], _decimals: uint8, _total_supply: uint256):
     name = _name
     symbol = _symbol

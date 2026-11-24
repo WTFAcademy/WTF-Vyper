@@ -1,5 +1,4 @@
-# @version 0.3.9
-
+# pragma version 0.4.3
 
 event UpdateNum:
     _old_num: indexed(uint256)
@@ -9,7 +8,7 @@ event UpdateNum:
 num: public(uint256)
 
 
-@external
+@deploy
 def __init__():
     pass
 

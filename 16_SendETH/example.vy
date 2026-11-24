@@ -1,3 +1,5 @@
+# pragma version 0.4.3
+
 interface ReceiverInterface:
     def receive_eth(): payable
 
@@ -22,4 +24,4 @@ def raw_call_eth(_receiver: address, _amount: uint256):
 
 @external
 def interface_send_eth(_receiver_addr: ReceiverInterface, _amount: uint256):
-    _receiver_addr.receive_eth(value=_amount)
+    extcall _receiver_addr.receive_eth(value=_amount)

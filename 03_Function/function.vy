@@ -1,4 +1,4 @@
-# @version 0.3.9
+# pragma version 0.4.3
 
 num1: public(uint256)
 num2: public(uint256)
@@ -50,7 +50,7 @@ def __default__():
 
 
 # 防重入
-@nonreentrant("lock")
+@nonreentrant
 @external
 def sensitive_function():
     pass

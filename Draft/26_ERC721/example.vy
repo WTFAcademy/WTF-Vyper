@@ -1,9 +1,9 @@
-#pragma version 0.3.10
+# pragma version 0.4.3
 
-from vyper.interfaces import ERC165
+from ethereum.ercs import IERC165 as ERC165
 implements: ERC165
 
-from vyper.interfaces import ERC721
+from ethereum.ercs import IERC721 as ERC721
 implements: ERC721
 
 interface ERC721Receiver:
@@ -49,7 +49,7 @@ SUPPORTED_INTERFACES: constant(bytes4[4]) = [
 
 
 @payable
-@external
+@deploy
 def __init__():
     name = "PudgyPenguins"
     symbol = "PPG"
@@ -142,7 +142,7 @@ def _check_on_erc721_received(
     _data: Bytes[1024]
 ) -> bool:
     if (_to.is_contract):
-        return_value: bytes4 = ERC721Receiver(_to).onERC721Received(msg.sender, _from, _token_id, _data)
+        return_value: bytes4 = extcall ERC721Receiver(_to).onERC721Received(msg.sender, _from, _token_id, _data)
         assert return_value == method_id("onERC721Received(address,address,uint256,bytes)", output_type=bytes4)
         return True
     else:

@@ -39,7 +39,7 @@
 ## `TOKEN404` 实现
 与 `ERC721` 相同，`TOKEN404` 也需要实现 `ERC165` 接口:
 ```
-from vyper.interfaces import ERC165
+from ethereum.ercs import IERC165 as ERC165
 implements: ERC165
 
 SUPPORTED_INTERFACES: constant(bytes4[2]) = [
@@ -149,7 +149,7 @@ def get_number() -> uint256:
 
 `IERC20Event` 代码示例:
 ```
-# pragma version 0.3.10
+# pragma version 0.4.3
 
 event Approval:
     owner: indexed(address)
@@ -209,7 +209,7 @@ def _transfer_erc20(_from: address, _to: address, _value: uint256):
         self.balanceOf[_from] -= _value
 
     self.balanceOf[_to] += _value
-    assert IERC20Event(EVENT20).transfer_event(_from, _to, _value)
+    assert extcall IERC20Event(EVENT20).transfer_event(_from, _to, _value)
 ```
 
 ### `ERC721` 转账逻辑 
@@ -269,7 +269,7 @@ def _transfer_erc20_with_erc721(_from: address, _to: address, _value: uint256) -
     elif is_from_erc721_exempt:
         tokens_to_retrieve_or_mint: uint256 = (self.balanceOf[_to] / uts) - (erc20_balance_of_receiver_before / uts)
 
-        for i in range(255):
+        for i: uint256 in range(255):
             if i >= tokens_to_retrieve_or_mint:
                 break
             self._retrieve_or_mint_erc721(_to)
@@ -277,7 +277,7 @@ def _transfer_erc20_with_erc721(_from: address, _to: address, _value: uint256) -
     elif is_to_erc721_exempt:
         tokens_to_withdraw_and_store: uint256 = (erc20_balance_of_sender_before / uts) - (self.balanceOf[_from] / uts)
 
-        for i in range(255):
+        for i: uint256 in range(255):
             if i >= tokens_to_withdraw_and_store:
                 break
             self._withdraw_and_store_erc721(_from)
@@ -285,7 +285,7 @@ def _transfer_erc20_with_erc721(_from: address, _to: address, _value: uint256) -
     else:
         nfts_to_transfer: uint256 = _value / uts
 
-        for i in range(255):
+        for i: uint256 in range(255):
             if i >= nfts_to_transfer:
                 break
             

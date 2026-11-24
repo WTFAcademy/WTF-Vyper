@@ -109,7 +109,7 @@ def external_pure_function() -> uint256:
 
 ```
 @payable
-@external
+@deploy
 def __init__():
 	pass
 
@@ -146,7 +146,7 @@ def __default__():
 #### 代码示例
 
 ```
-@nonreentrant("lock")
+@nonreentrant
 @external
 def sensitive_function():
     pass

@@ -1,5 +1,4 @@
-# @version 0.3.9
-
+# pragma version 0.4.3
 
 @external
 def get_revert(_number: uint256):

@@ -1,4 +1,5 @@
-# @version 0.3.9
+# pragma version 0.4.3
+# pragma enable-decimals
 
 # 布尔值
 is_bool: public(bool)
@@ -20,7 +21,7 @@ string_name: public(String[5])
 
 
 @payable
-@external
+@deploy
 def __init__():
 	self.is_bool = True
 	self.int256_number = -1

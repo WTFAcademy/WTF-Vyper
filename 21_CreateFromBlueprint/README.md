@@ -29,8 +29,8 @@ create_from_blueprint(_target: address, *args, _value: uint256 = 0, raw_args: bo
 代码示例:
 
 ```
-from vyper.interfaces import ERC20
-from vyper.interfaces import ERC20Detailed
+from ethereum.ercs import IERC20 as ERC20
+from ethereum.ercs import IERC20Detailed as ERC20Detailed
 
 implements: ERC20
 implements: ERC20Detailed
@@ -55,7 +55,7 @@ totalSupply: public(uint256)
 minter: address
 
 
-@external
+@deploy
 def __init__(_name: String[32], _symbol: String[32], _decimals: uint8, supply: uint256):
     init_supply: uint256 = supply * 10 ** convert(decimals, uint256)
     name = _name
@@ -127,7 +127,7 @@ def burnFrom(_to: address, _value: uint256):
 代码示例:
 
 ```
-from vyper.interfaces import ERC20
+from ethereum.ercs import IERC20 as ERC20
 
 
 event BlueprintCreated:
@@ -138,7 +138,7 @@ EIP5202_CODE_OFFSET: constant(uint256) = 3
 BLUEPRINT: immutable(address)
 
 
-@external
+@deploy
 def __init__(_blueprint_address: address):
     BLUEPRINT = _blueprint_address
 

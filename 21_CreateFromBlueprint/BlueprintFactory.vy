@@ -1,4 +1,6 @@
-from vyper.interfaces import ERC20
+# pragma version 0.4.3
+
+from ethereum.ercs import IERC20 as ERC20
 
 
 event BlueprintCreated:
@@ -9,7 +11,7 @@ EIP5202_CODE_OFFSET: constant(uint256) = 3
 BLUEPRINT: immutable(address)
 
 
-@external
+@deploy
 def __init__(_blueprint_address: address):
     BLUEPRINT = _blueprint_address
 

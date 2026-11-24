@@ -66,7 +66,7 @@ def update_balance(_new_balance: uint256) -> uint256:
 NUMBER: immutable(uint256)
 
 @payable
-@external
+@deploy
 def __init__():
 	NUMBER = 100
 
@@ -168,7 +168,7 @@ TOTAL_SUPPLY: constant(uint256) = 10000000
 DECIMALS: immutable(uint256)
 total_supply: public(uint256)
 
-@external
+@deploy
 def __init__():
 	DECIMALS = 18
     self.total_supply = TOTAL_SUPPLY

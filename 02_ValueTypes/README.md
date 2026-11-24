@@ -45,7 +45,7 @@ Vyper 提供对两类变量类型的访问：
 is_bool: public(bool)
 
 @payable
-@external
+@deploy
 def __init__():
 	self.is_bool = True
 ```

@@ -1,4 +1,4 @@
-# @version 0.3.9
+# pragma version 0.4.3
 
 interface TargetContract:
     def num() -> uint256: view
@@ -8,7 +8,7 @@ interface TargetContract:
 target: public(address)
 
 
-@external
+@deploy
 def __init__(_target: address):
     self.target = _target
 
@@ -16,10 +16,10 @@ def __init__(_target: address):
 @view
 @external
 def get_num() -> uint256:
-    return TargetContract(self.target).num()
+    return staticcall TargetContract(self.target).num()
 
 
 @external
 def call_target(_new_num: uint256):
-    success: bool = TargetContract(self.target).set_num(_new_num)
+    success: bool = extcall TargetContract(self.target).set_num(_new_num)
     assert success, "call fail"

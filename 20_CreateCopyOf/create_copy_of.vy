@@ -1,5 +1,4 @@
-# @version 0.3.9
-
+# pragma version 0.4.3
 
 event CreateNewContract:
     _new_contract: indexed(address)
@@ -11,7 +10,7 @@ all_copied_length: public(uint256)
 target: public(address)
 
 
-@external
+@deploy
 def __init__(_target: address):
     self.target = _target
 

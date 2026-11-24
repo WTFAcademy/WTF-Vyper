@@ -46,7 +46,7 @@ def get_calculate() -> uint256:
 ```
 foobar_contract: FooBar
 
-@external
+@deploy
 def __init__(foobar_address: address):
     self.foobar_contract = FooBar(foobar_address)
 
@@ -60,7 +60,7 @@ def test():
 ```
 foobar_contract: FooBar
 
-@external
+@deploy
 def __init__(foobar_address: FooBar):
     self.foobar_contract = foobar_address
 ```
@@ -84,10 +84,10 @@ interface FooBar:
 
 @external
 def test(foobar: FooBar):
-    foobar.calculate()  # 不会更改储存
-    foobar.query()  # 不会更改储存
-    foobar.update()  # 会更改存储
-    foobar.pay(value=1)  # 会更改存储，并且可以发送ETH
+    _calculate: uint256 = staticcall foobar.calculate()  # 不会更改储存
+    _query: uint256 = staticcall foobar.query()  # 不会更改储存
+    extcall foobar.update()  # 会更改存储
+    extcall foobar.pay(value=1)  # 会更改存储，并且可以发送ETH
 ```
 
 #### Vyper 还可以在调用时添加关键字参数，有以下几种：
@@ -107,10 +107,10 @@ def test(foobar: FooBar):
 
 ```
 # 使用内置接口
-from vyper.interfaces import ERC20
+from ethereum.ercs import IERC20 as ERC20
 implements: ERC20
 
-from vyper.interfaces import ERC721
+from ethereum.ercs import IERC721 as ERC721
 implements: ERC721
 
 @view

@@ -1,5 +1,4 @@
-# @version 0.3.9
-
+# pragma version 0.4.3
 
 NUMBER: constant(uint256) = 30
 
@@ -22,7 +21,7 @@ def is_active(_index: uint256) -> bool:
 @external
 def sum_numbers() -> uint256:
     total: uint256 = 0
-    for i in range(0, 30):
+    for i: uint256 in range(0, 30):
         total += i
     return total
 
@@ -31,7 +30,7 @@ def sum_numbers() -> uint256:
 @external
 def sum_numbers1() -> uint256:
     total: uint256 = 0
-    for i in range(0, NUMBER):
+    for i: uint256 in range(0, NUMBER):
         total += i
     return total
 
@@ -43,7 +42,7 @@ def sum_numbers1() -> uint256:
 # 	@notice 错误写法
 # 	"""
 # 	total: uint256 = 0
-# 	for i in range(0, _number):
+# 	for i: uint256 in range(0, _number):
 # 		total += i
 # 	return total
 

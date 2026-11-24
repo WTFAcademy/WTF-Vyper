@@ -30,7 +30,7 @@ create_copy_of(_target: address, _value: uint256 = 0, _salt: bytes32) -> address
 代码示例:
 
 ```
-# @version 0.3.9
+# pragma version 0.4.3
 
 
 event UpdateNum:
@@ -41,7 +41,7 @@ event UpdateNum:
 num: public(uint256)
 
 
-@external
+@deploy
 def __init__():
     pass
 
@@ -62,7 +62,7 @@ def update_num(_new_num: uint256) -> bool:
 代码示例:
 
 ```
-# @version 0.3.9
+# pragma version 0.4.3
 
 
 event CreateNewContract:
@@ -75,7 +75,7 @@ all_copied_length: public(uint256)
 target: public(address)
 
 
-@external
+@deploy
 def __init__(_target: address):
     self.target = _target
 

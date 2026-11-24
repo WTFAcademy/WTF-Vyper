@@ -1,10 +1,11 @@
-# pragma version >0.3.10
+# pragma version 0.4.3
+
 """
 @title TOKEN404 - is commonly referred to as ERC404; however, it does not adhere to the ERC20 standard and is instead considered a novel approach.
 @author 0x77
 """
 
-from vyper.interfaces import ERC165
+from ethereum.ercs import IERC165 as ERC165
 implements: ERC165
 
 
@@ -92,7 +93,7 @@ SUPPORTED_INTERFACES: constant(bytes4[2]) = [
     0xcaf91ff5 # TOKEN404
 ]
 
-@external
+@deploy
 def __init__(
     _erc20_event: address,
     _name: String[32], 
@@ -111,7 +112,7 @@ def __init__(
 
     EVENT20 = _erc20_event
     DOMAIN_SEPARATOR = keccak256(
-        _abi_encode(EIP712_TYPEHASH, keccak256(_name), keccak256(_version), chain.id, self, block.prevhash)
+        abi_encode(EIP712_TYPEHASH, keccak256(_name), keccak256(_version), chain.id, self, block.prevhash)
     )
 
     self._set_erc721_transfer_exempt(msg.sender, True)
@@ -255,7 +256,7 @@ def _erc721_approve(_spender: address, _id: uint256):
 def _erc20_approve(_spender: address, _value: uint256) -> bool:
     assert _spender != empty(address), "INVALID SPENDER"
     self.allowance[msg.sender][_spender] = _value
-    return IERC20Event(EVENT20).approve_event(msg.sender, _spender, _value)
+    return extcall IERC20Event(EVENT20).approve_event(msg.sender, _spender, _value)
 
 
 @internal
@@ -266,7 +267,7 @@ def _transfer_erc20(_from: address, _to: address, _value: uint256):
         self.balanceOf[_from] -= _value
 
     self.balanceOf[_to] += _value
-    assert IERC20Event(EVENT20).transfer_event(_from, _to, _value)
+    assert extcall IERC20Event(EVENT20).transfer_event(_from, _to, _value)
 
 
 @internal
@@ -307,25 +308,25 @@ def _transfer_erc20_with_erc721(_from: address, _to: address, _value: uint256) -
         pass 
 
     elif is_from_erc721_exempt:
-        tokens_to_retrieve_or_mint: uint256 = (self.balanceOf[_to] / uts) - (erc20_balance_of_receiver_before / uts)
+        tokens_to_retrieve_or_mint: uint256 = (self.balanceOf[_to] // uts) - (erc20_balance_of_receiver_before // uts)
 
-        for i in range(255):
+        for i: uint256 in range(255):
             if i >= tokens_to_retrieve_or_mint:
                 break
             self._retrieve_or_mint_erc721(_to)
 
     elif is_to_erc721_exempt:
-        tokens_to_withdraw_and_store: uint256 = (erc20_balance_of_sender_before / uts) - (self.balanceOf[_from] / uts)
+        tokens_to_withdraw_and_store: uint256 = (erc20_balance_of_sender_before // uts) - (self.balanceOf[_from] // uts)
 
-        for i in range(255):
+        for i: uint256 in range(255):
             if i >= tokens_to_withdraw_and_store:
                 break
             self._withdraw_and_store_erc721(_from)
 
     else:
-        nfts_to_transfer: uint256 = _value / uts
+        nfts_to_transfer: uint256 = _value // uts
 
-        for i in range(255):
+        for i: uint256 in range(255):
             if i >= nfts_to_transfer:
                 break
             
@@ -333,10 +334,10 @@ def _transfer_erc20_with_erc721(_from: address, _to: address, _value: uint256) -
             token_id: uint256 = self._owned[_from][index_of_last_token]
             self._transfer_erc721(_from, _to, token_id)
 
-        if ((erc20_balance_of_sender_before / uts) - (self.balanceOf[_from] / uts)) > nfts_to_transfer:
+        if ((erc20_balance_of_sender_before // uts) - (self.balanceOf[_from] // uts)) > nfts_to_transfer:
             self._withdraw_and_store_erc721(_from)
 
-        if ((self.balanceOf[_to] / uts) - (erc20_balance_of_receiver_before / uts)) > nfts_to_transfer:
+        if ((self.balanceOf[_to] // uts) - (erc20_balance_of_receiver_before // uts)) > nfts_to_transfer:
             self._retrieve_or_mint_erc721(_to)
 
     return True
@@ -412,7 +413,7 @@ def _check_on_erc721_received(
     _data: Bytes[1024]
 ) -> bool:
     if (_to.is_contract):
-        return_value: bytes4 = ERC721Receiver(_to).onERC721Received(msg.sender, _from, _token_id, _data)
+        return_value: bytes4 = extcall ERC721Receiver(_to).onERC721Received(msg.sender, _from, _token_id, _data)
         assert return_value == method_id("onERC721Received(address,address,uint256,bytes)", output_type=bytes4)
         return True
     else:
@@ -421,10 +422,10 @@ def _check_on_erc721_received(
 
 @internal
 def _reinstate_erc721_balance(_target: address):
-    expected_erc721_balance: uint256 = self.balanceOf[_target] / self.units
+    expected_erc721_balance: uint256 = self.balanceOf[_target] // self.units
     actual_erc721_balance: uint256 = len(self._owned[_target])
 
-    for i in range(255):
+    for i: uint256 in range(255):
         if i >= expected_erc721_balance - actual_erc721_balance:
             break
         self._retrieve_or_mint_erc721(_target)
@@ -434,7 +435,7 @@ def _reinstate_erc721_balance(_target: address):
 def _clear_erc721_balance(_target: address):
     erc721_balance: uint256 = len(self._owned[_target])
 
-    for i in range(255):
+    for i: uint256 in range(255):
         if i >= erc721_balance:
             break
         self._withdraw_and_store_erc721(_target)
@@ -536,7 +537,7 @@ def getERC721TokensInQueue(_start: uint256, _count: uint256) -> DynArray[uint256
     token_in_queue: DynArray[uint256, max_value(uint8)] = []
 
     x: uint256 = _start
-    for i in range(255):
+    for i: uint256 in range(255):
         if x >= _start + _count:
             break
 
@@ -611,19 +612,19 @@ def permit(
         concat(
             b"\x19\x01",
             DOMAIN_SEPARATOR,
-            keccak256(_abi_encode(EIP2612_TYPEHASH, _owner, _spender, _value, nonce, _deadline))
+            keccak256(abi_encode(EIP2612_TYPEHASH, _owner, _spender, _value, nonce, _deadline))
         )
     )
 
     if _owner.is_contract:
-        sig: Bytes[65] = concat(_abi_encode(_r, _s), slice(convert(_v, bytes32), 31, 1))
-        assert ERC1271(_owner).isValidSignature(digest, sig) == IERC1271_ISVALIDSIGNATURE_SELECTOR
+        sig: Bytes[65] = concat(abi_encode(_r, _s), slice(convert(_v, bytes32), 31, 1))
+        assert staticcall ERC1271(_owner).isValidSignature(digest, sig) == IERC1271_ISVALIDSIGNATURE_SELECTOR
     else:
         assert ecrecover(digest, _v, _r, _s) == _owner
 
     self.nonces[_owner] = nonce + 1
     self.allowance[_owner][_spender] = _value
-    IERC20Event(EVENT20).approve_event(_owner, _spender, _value)
+    extcall IERC20Event(EVENT20).approve_event(_owner, _spender, _value)
 
     return True
 

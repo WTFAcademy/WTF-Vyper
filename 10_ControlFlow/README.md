@@ -28,7 +28,7 @@ def is_active(_index: uint256) -> bool:
 
 ## 2. for 循环
 
-#### Vyper 中的 for 循环迭代值可以是静态数组、动态数组或从内置 range 函数生成，使用 `for i in range(START, STOP)` 循环时，`START` 和 `STOP` 的值必须是字面整数或者常量(constant)，无法使用参数或者内存变量
+#### Vyper 中的 for 循环迭代值可以是静态数组、动态数组或从内置 range 函数生成，使用 `for i: uint256 in range(START, STOP)` 循环时，`START` 和 `STOP` 的值必须是字面整数或者常量(constant)，无法使用参数或者内存变量
 
 #### 代码示例
 
@@ -41,7 +41,7 @@ NUMBER: constant(uint256) = 30
 @external
 def sum_numbers() -> uint256:
     total: uint256 = 0
-    for i in range(0, 30):
+    for i: uint256 in range(0, 30):
         total += i
     return total
 
@@ -49,7 +49,7 @@ def sum_numbers() -> uint256:
 @external
 def sum_numbers1() -> uint256:
     total: uint256 = 0
-    for i in range(0, NUMBER):
+    for i: uint256 in range(0, NUMBER):
         total += i
     return total
 ```
@@ -61,7 +61,7 @@ def sum_numbers1() -> uint256:
 @external
 def sum_numbers_error(_number: uint256) -> uint256:
     total: uint256 = 0
-    for i in range(0, _number):
+    for i: uint256 in range(0, _number):
         total += i
     return total
 ```

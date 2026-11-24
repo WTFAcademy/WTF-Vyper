@@ -1,4 +1,4 @@
-# @version 0.3.9
+# pragma version 0.4.3
 
 interface CreateAddress:
     def compute_address(_salt: bytes32, _bytecode_hash: bytes32, _deployer: address, _input: Bytes[4096]) -> address: pure
@@ -20,6 +20,6 @@ def compute_address(_salt: bytes32, _bytecode_hash: bytes32, _deployer: address,
 @view
 @external
 def compute_address_self(_salt: bytes32, _bytecode_hash: bytes32, _deployer: address, _input: Bytes[4096]) -> address:
-    return CreateAddress(self).compute_address(_salt, _bytecode_hash, _deployer, _input)
+    return staticcall CreateAddress(self).compute_address(_salt, _bytecode_hash, _deployer, _input)
 
 

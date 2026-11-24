@@ -1,8 +1,8 @@
-# @version 0.3.9
+# pragma version 0.4.3
 
 greet: public(String[12])
 
 @payable
-@external
+@deploy
 def __init__():
 	self.greet = "Hello Vyper!"

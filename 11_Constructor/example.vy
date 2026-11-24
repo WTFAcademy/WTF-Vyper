@@ -1,4 +1,5 @@
-# @version 0.3.9
+# pragma version 0.4.3
+
 """
 @title Simple Proxy
 @author 0x77
@@ -13,7 +14,7 @@ implementation: public(address)
 
 
 @payable
-@external
+@deploy
 def __init__(_implementation: address):
 	self.implementation = _implementation
 
@@ -30,7 +31,7 @@ def __default__() -> Bytes[255]:
 		self.implementation,
 		msg.data,
 		max_outsize=255,
-		value=msg.value,
+
 		is_delegate_call=True
 	)
 

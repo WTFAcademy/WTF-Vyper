@@ -1,4 +1,4 @@
-# @version 0.3.9
+# pragma version 0.4.3
 
 event Transfer:
     sender: indexed(address)

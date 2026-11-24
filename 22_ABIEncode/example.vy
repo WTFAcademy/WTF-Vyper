@@ -1,12 +1,11 @@
-# @version 0.3.9
-
+# pragma version 0.4.3
 
 @view
 @external
 def foo() -> Bytes[128]:
     x: uint256 = 1
     y: Bytes[32] = b"234"
-    return _abi_encode(x, y)
+    return abi_encode(x, y)
 
 
 @view
@@ -14,7 +13,7 @@ def foo() -> Bytes[128]:
 def encode_abi() -> Bytes[132]:
     x: uint256 = 1
     y: Bytes[32] = b"234"
-    return _abi_encode(x, y, method_id=method_id("foo(uint256,bytes)"))
+    return abi_encode(x, y, method_id=method_id("foo(uint256,bytes)"))
 
 
 # 使用 concat 拼接
@@ -26,7 +25,7 @@ def concat_abi() -> Bytes[132]:
     y: Bytes[32] = b"234"
     return concat(
         method_id("foo(uint256,bytes)"),
-        _abi_encode(x, y)
+        abi_encode(x, y)
     )
 
 
@@ -35,5 +34,5 @@ def concat_abi() -> Bytes[132]:
 def decode_abi(_some_input: Bytes[128]) -> (uint256, Bytes[32]):
     x: uint256 = empty(uint256)
     y: Bytes[32] = empty(Bytes[32])
-    x, y = _abi_decode(_some_input, (uint256, Bytes[32]))
+    x, y = abi_decode(_some_input, (uint256, Bytes[32]))
     return x, y

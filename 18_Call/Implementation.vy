@@ -1,4 +1,5 @@
-# @version 0.3.9
+# pragma version 0.4.3
+
 """
 @title Vyper Proxy
 @author 0x77
@@ -24,7 +25,7 @@ admin: public(address)
 
 
 @payable
-@external
+@deploy
 def __init__():
     self.admin = msg.sender
 

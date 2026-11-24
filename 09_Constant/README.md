@@ -18,7 +18,7 @@ PERMIT: constant(bytes32) = 0x00000000000000000000000000000000000000000000000000
 OWNER: immutable(address)
 
 @payable
-@external
+@deploy
 def __init__():
 	OWNER = msg.sender
 

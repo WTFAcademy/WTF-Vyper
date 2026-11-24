@@ -1,5 +1,4 @@
-# @version 0.3.9
-
+# pragma version 0.4.3
 
 x: public(uint256)
 y: public(uint256)
@@ -9,7 +8,7 @@ add_num: public(uint256)
 sub_num: public(uint256)
 
 
-@external
+@deploy
 def __init__(_target: address):
     self.target = _target
 
@@ -31,7 +30,7 @@ def get_sender() -> address:
 def raw_call_test_add(_x: uint256, _y: uint256):
     response: Bytes[32] = raw_call(
         self.target,
-        _abi_encode(
+        abi_encode(
             _x, # 第一个参数
             _y, # 第二个参数
             method_id=method_id("test_add(uint256,uint256)") # 调用的函数签名
@@ -68,7 +67,7 @@ def raw_call_test_sub(_x: uint256, _y: uint256):
 def delegate_call_x(_x: uint256):
     raw_call(
         self.target,
-        _abi_encode(
+        abi_encode(
             _x,
             method_id=method_id("update_x(uint256)")
         ),
@@ -80,7 +79,7 @@ def delegate_call_x(_x: uint256):
 def delegate_call_y(_y: uint256):
     raw_call(
         self.target,
-        _abi_encode(
+        abi_encode(
             _y,
             method_id=method_id("update_y(uint256)")
         ),

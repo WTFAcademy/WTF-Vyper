@@ -1,4 +1,4 @@
-# pragma version 0.3.10
+# pragma version 0.4.3
 
 event Approval:
     owner: indexed(address)

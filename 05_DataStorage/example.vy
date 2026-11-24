@@ -1,5 +1,4 @@
-# @version 0.3.9
-
+# pragma version 0.4.3
 
 # 不可变量, 不需要在构造函数中赋值
 NUMBER: immutable(uint256)
@@ -13,7 +12,7 @@ balances: public(uint256)
 
 
 @payable
-@external
+@deploy
 def __init__():
 	NUMBER = 100
 

@@ -88,7 +88,7 @@ decimals: public(immutable(uint8))
 
 ```
 @payable
-@external
+@deploy
 def __init__(_name: String[32], _symbol: String[32], _decimals: uint8, _total_supply: uint256):
     name = _name
     symbol = _symbol

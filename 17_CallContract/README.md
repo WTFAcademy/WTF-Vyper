@@ -8,7 +8,7 @@
 建议在定义公共接口时使用清晰易懂的接口名和参数名，并明确指定返回类型
 
 ```
-# @version 0.3.9
+# pragma version 0.4.3
 
 event SetNum:
     _old_num: indexed(uint256)
@@ -36,7 +36,7 @@ def set_num(_new_num: uint256) -> bool:
 示例代码:
 
 ```
-# @version 0.3.9
+# pragma version 0.4.3
 
 interface TargetContract:
     def num() -> uint256: view
@@ -46,7 +46,7 @@ interface TargetContract:
 target: public(address)
 
 
-@external
+@deploy
 def __init__(_target: address):
     self.target = _target
 
@@ -54,12 +54,12 @@ def __init__(_target: address):
 @view
 @external
 def get_num() -> uint256:
-    return TargetContract(self.target).num()
+    return staticcall TargetContract(self.target).num()
 
 
 @external
 def call_target(_new_num: uint256):
-    success: bool = TargetContract(self.target).set_num(_new_num)
+    success: bool = extcall TargetContract(self.target).set_num(_new_num)
     assert success, "call fail"
 ```
 

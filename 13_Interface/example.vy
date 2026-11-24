@@ -1,9 +1,9 @@
-# @version 0.3.9
+# pragma version 0.4.3
 
-# from vyper.interfaces import ERC20
+# from ethereum.ercs import IERC20 as ERC20
 # implements: ERC20
 
-# from vyper.interfaces import ERC721
+# from ethereum.ercs import IERC721 as ERC721
 # implements: ERC721
 
 interface FooBar:
@@ -16,7 +16,7 @@ interface FooBar:
 @view
 @external
 def get_calculate(_contract: address) -> uint256:
-	return FooBar(_contract).calculate()
+	return staticcall FooBar(_contract).calculate()
 
 # @view
 # @external
@@ -31,7 +31,7 @@ def get_calculate(_contract: address) -> uint256:
 
 @external
 def test(foobar: FooBar):
-    foobar.calculate()  # 不会更改储存
-    foobar.query()  # 不会更改储存
-    foobar.update()  # 会更改存储
-    foobar.pay(value=1)  # 会更改存储，并且可以发送ETH
+    _calculate: uint256 = staticcall foobar.calculate()  # 不会更改储存
+    _query: uint256 = staticcall foobar.query()  # 不会更改储存
+    extcall foobar.update()  # 会更改存储
+    extcall foobar.pay(value=1)  # 会更改存储，并且可以发送ETH

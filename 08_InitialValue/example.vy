@@ -1,5 +1,5 @@
-# @version 0.3.9
-
+# pragma version 0.4.3
+# pragma enable-decimals
 
 # 默认值
 example_address: public(address)

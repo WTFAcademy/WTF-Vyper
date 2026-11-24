@@ -27,7 +27,7 @@ create_minimal_proxy_to(_target: address, _value: uint256 = 0, _salt: bytes32) -
 代码示例:
 
 ```
-# @version 0.3.9
+# pragma version 0.4.3
 
 event Received:
 	_sender: indexed(address)
@@ -38,7 +38,7 @@ implementation: public(address)
 
 
 @payable
-@external
+@deploy
 def __init__(_implementation: address):
 	self.implementation = _implementation
 
@@ -55,7 +55,7 @@ def __default__() -> Bytes[255]:
 		self.implementation,
 		msg.data,
 		max_outsize=255,
-		value=msg.value,
+
 		is_delegate_call=True
 	)
 
@@ -71,7 +71,7 @@ def __default__() -> Bytes[255]:
 
 ```
 
-# @version 0.3.9
+# pragma version 0.4.3
 
 
 event WalletCreate:
@@ -88,7 +88,7 @@ all_wallets: public(HashMap[uint256, address])
 is_wallet: public(HashMap[address, bool])
 
 
-@external
+@deploy
 def __init__(_wallet: address):
     self.wallet = _wallet
 
@@ -170,7 +170,7 @@ def vyper_proxy_byte_code(_target: str):
 在不同区块链上，使用 `create_minimal_proxy_to` 部署的合约地址可能会有所不同，因为不同的 EVM 链对 `CREATE2` 指令的实现可能存在差异。例如，在 `zkSync` 链上，使用标准的地址预估方法可能无法准确预测出实际部署的新合约地址。因此，需要根据特定链的 `CREATE2` 逻辑调整地址预估方法。下面提供了一个适用于 zkSync 的地址预估逻辑示例代码：
 
 ```
-# @version 0.3.9
+# pragma version 0.4.3
 
 interface CreateAddress:
     def compute_address(_salt: bytes32, _bytecode_hash: bytes32, _deployer: address, _input: Bytes[4096]) -> address: pure
@@ -192,7 +192,7 @@ def compute_address(_salt: bytes32, _bytecode_hash: bytes32, _deployer: address,
 @view
 @external
 def compute_address_self(_salt: bytes32, _bytecode_hash: bytes32, _deployer: address, _input: Bytes[4096]) -> address:
-    return CreateAddress(self).compute_address(_salt, _bytecode_hash, _deployer, _input)
+    return staticcall CreateAddress(self).compute_address(_salt, _bytecode_hash, _deployer, _input)
 ```
 
 ## 总结

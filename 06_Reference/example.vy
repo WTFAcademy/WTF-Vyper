@@ -1,4 +1,5 @@
-# @version 0.3.9
+# pragma version 0.4.3
+# pragma enable-decimals
 
 struct MyStruct:
     value1: uint256

@@ -1,5 +1,4 @@
-# @version 0.3.9
-
+# pragma version 0.4.3
 
 interface ProxyWallet:
     def initialization(_implementation: address) -> bool: nonpayable
@@ -20,7 +19,7 @@ all_wallets: public(HashMap[uint256, address])
 is_wallet: public(HashMap[address, bool])
 
 
-@external
+@deploy
 def __init__(_wallet: address, _implementation: address):
     self.wallet = _wallet
     self.implementation = _implementation
@@ -54,7 +53,7 @@ def compute_address(_salt: bytes32, _bytecode_hash: bytes32, _deployer: address)
 @external
 def create_wallet(_salt: bytes32) -> address:
     new_wallet: address = create_minimal_proxy_to(self.wallet, salt=_salt)
-    assert ProxyWallet(new_wallet).initialization(self.implementation)
+    assert extcall ProxyWallet(new_wallet).initialization(self.implementation)
 
     self.all_wallets[self.all_wallet_length] = new_wallet
     self.is_wallet[new_wallet] = True

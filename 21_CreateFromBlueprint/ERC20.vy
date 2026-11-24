@@ -1,5 +1,7 @@
-from vyper.interfaces import ERC20
-from vyper.interfaces import ERC20Detailed
+# pragma version 0.4.3
+
+from ethereum.ercs import IERC20 as ERC20
+from ethereum.ercs import IERC20Detailed as ERC20Detailed
 
 implements: ERC20
 implements: ERC20Detailed
@@ -24,7 +26,7 @@ totalSupply: public(uint256)
 minter: address
 
 
-@external
+@deploy
 def __init__(_name: String[32], _symbol: String[32], _decimals: uint8, supply: uint256):
     init_supply: uint256 = supply * 10 ** convert(decimals, uint256)
     name = _name

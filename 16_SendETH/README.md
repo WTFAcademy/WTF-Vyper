@@ -7,7 +7,7 @@
 首先，我们需要一个能够接收 `ETH` 的合约。该合约声明了 `ReceiveETH` 事件以及用于接收 ETH 的函数
 
 ```
-# @version 0.3.9
+# pragma version 0.4.3
 
 event ReceiveETH:
     _sender: indexed(address)
@@ -87,7 +87,7 @@ interface ReceiverInterface:
 
 @external
 def interface_send_eth(_receiver_addr: ReceiverInterface, _amount: uint256):
-    _receiver_addr.receive_eth(value=_amount)
+    extcall _receiver_addr.receive_eth(value=_amount)
 
 ```
 

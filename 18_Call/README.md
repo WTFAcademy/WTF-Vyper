@@ -36,7 +36,7 @@ raw_call(to, data, value)
 代码示例:
 
 ```
-# @version 0.3.9
+# pragma version 0.4.3
 
 x: public(uint256)
 y: public(uint256)
@@ -80,14 +80,14 @@ def receive_eth():
 代码示例:
 
 ```
-# @version 0.3.9
+# pragma version 0.4.3
 
 target: public(address)
 add_num: public(uint256)
 sub_num: public(uint256)
 
 
-@external
+@deploy
 def __init__(_target: address):
     self.target = _target
 
@@ -96,7 +96,7 @@ def __init__(_target: address):
 def raw_call_test_add(_x: uint256, _y: uint256):
     response: Bytes[32] = raw_call(
         self.target,
-        _abi_encode(
+        abi_encode(
             _x, # 第一个参数
             _y, # 第二个参数
             method_id=method_id("test_add(uint256,uint256)") # 调用的函数签名
@@ -129,7 +129,7 @@ def raw_call_test_sub(_x: uint256, _y: uint256):
     self.sub_num = convert(response, uint256)
 ```
 
-示例代码中对于 `data` 的构建使用了两种方式，`_abi_encode` 和 `concat`，从示例中也能看出 `_abi_encode` 的使用方式更加简单，在开发过程中根据具体情况选择使用，不过建议优先使用 `_abi_encode` 进行编码
+示例代码中对于 `data` 的构建使用了两种方式，`abi_encode` 和 `concat`，从示例中也能看出 `abi_encode` 的使用方式更加简单，在开发过程中根据具体情况选择使用，不过建议优先使用 `abi_encode` 进行编码
 
 ![rawcall](./image/rawcall.png)
 
@@ -150,7 +150,7 @@ y: public(uint256)
 def delegate_call_x(_x: uint256):
     raw_call(
         self.target,
-        _abi_encode(
+        abi_encode(
             _x,
             method_id=method_id("update_x(uint256)")
         ),
@@ -162,7 +162,7 @@ def delegate_call_x(_x: uint256):
 def delegate_call_y(_y: uint256):
     raw_call(
         self.target,
-        _abi_encode(
+        abi_encode(
             _y,
             method_id=method_id("update_y(uint256)")
         ),
