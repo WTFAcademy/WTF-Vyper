@@ -20,7 +20,7 @@ tags:
 Vyper 是一种面向合约的类似于 Python 的编程语言，专为`EVM`设计。与Solidity不同，Vyper强调简单性和安全性，而Solidity则提供更多灵活性和复杂特性。
 
 ## 开发环境
-与Solidity不同，`Remix`只支持Vyper `0.2.16` 以下的版本，而最新版是Vyper `0.3.10`，因此我们不得不转向其他开发环境。
+本讲保留 Vyper 0.3.9 的示例，使用本地编译器和 ApeWorX 运行。
 
 这里，我们主要介绍两个开发环境
 
@@ -32,11 +32,9 @@ Vyper 是一种面向合约的类似于 Python 的编程语言，专为`EVM`设�
 使用 `Docker` 和 `PIP` 可安装Vyper。此处使用 `PIP`，其他安装方法见[Vyper官方文档](https://docs.vyperlang.org/en/latest/installing-vyper.html)。
 
 ```bash
-pip3 install vyper
-# 或
-pip3 install vyper==0.3.9
+python -m pip install vyper==0.3.9
 ```
-安装的Vyper版本取决于当前Python版本。
+示例的 `# @version 0.3.9` 要求使用该编译器版本。
 
 ### 2. 安装ApeWorX
 ApeWorX是一个与Vyper完全兼容的智能合约开发框架。另一框架`brownie`已停止更新。ApeWorX官网: [ApeWorX](https://apeworx.io)。
@@ -50,7 +48,7 @@ pip3 install eth-ape
 开发常用插件包括 `hardhat` 和 `alchemy`。使用`alchemy`需要本地设置`key`，详情见[这里](https://academy.apeworx.io/articles/account-tutorial)。
 
 ```bash
-ape plugins install hardhat alchemy
+ape plugins install vyper hardhat alchemy
 ```
 
 ### 4. 初始化项目
@@ -116,7 +114,7 @@ def __init__():
 ```
 
 代码逐行分析：
-1. 指定Vyper编译器版本 `0.3.9` 或 `>=0.3.9`。
+1. 指定Vyper编译器版本 `0.3.9`。
 2. 声明`public`变量`greet`：`public(String[12])`。
 3. `@payable` 和 `@external` 装饰器。
 4. `__init__`：合约的构造函数。

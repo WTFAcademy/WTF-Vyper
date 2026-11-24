@@ -302,7 +302,7 @@ def _transfer_erc20_with_erc721(_from: address, _to: address, _value: uint256) -
     return True
 ```
 
-以上是合约的核心转移逻辑部分，需要查看完整合约代码点击 [点击这里](./erc404.vy)
+以上是合约的核心转移逻辑部分，需要查看完整合约代码点击 [点击这里](./TOKEN404.vy)
 
 
 ## `TOKEN404` 部署
